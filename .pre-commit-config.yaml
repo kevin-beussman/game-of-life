@@ -1,0 +1,61 @@
+fail_fast: false
+repos:
+  - repo: local
+    hooks:
+      - id: autoflake
+        name: Autoflake
+        entry: poetry run autoflake --in-place --remove-unused-variables --recursive 
+        pass_filenames: true
+        language: system
+        types_or: [
+          python
+        ]
+      - id: black
+        name: Black
+        entry: poetry run black
+        pass_filenames: true
+        language: system
+        types_or: [
+          python
+        ]
+      - id: isort
+        name: isort
+        entry: poetry run isort 
+        pass_filenames: true
+        language: system
+        types_or: [
+          python
+        ]
+      - id: mypy
+        name: MyPy
+        entry: poetry run mypy --warn-unused-ignores
+        pass_filenames: true
+        language: system
+        types_or: [
+          python,
+          jupyter
+        ]
+        verbose: true
+      - id: pylint
+        name: Pylint
+        entry: poetry run pylint --enable useless-suppression
+        always_run: true
+        pass_filenames: true
+        language: system
+        types_or: [
+          python,
+          #jupyter # TO_DO: Add functionality when possible.
+        ]
+        verbose: true
+      # - id: pytest
+      #   name: Pytest
+      #   entry: bash -c "poetry run coverage run -m pytest --testdox tests --ignore=$(git status --porcelain | grep '^??' | cut -c4- | grep 'tests' | sed -n 'H;1h;${g;s/\n/ --ignore=/g;p}' )"
+      #   pass_filenames: false
+      #   language: system
+      #   verbose: true
+      # - id: coverage
+      #   name: Coverage
+      #   entry: poetry run coverage report --fail-under=60 --skip-empty --skip-covered --show-missing
+      #   pass_filenames: false
+      #   language: system
+      #   verbose: true
