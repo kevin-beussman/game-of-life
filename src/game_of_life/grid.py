@@ -1,10 +1,9 @@
 """Module for defining grid classes.
 """
 
-import copy
+from typing import Callable
 
 from game_of_life.node import Node
-from typing import Callable
 
 
 class Grid:
@@ -24,7 +23,7 @@ class Grid:
         for row in self.mat:
             out += str([1 if x.alive else 0 for x in row]) + "\n"
         return out
-    
+
     def initialize_nodes(self, coord_list: list[tuple[int, int]]):
         """initialize nodes"""
         for row, col in coord_list:
@@ -36,19 +35,19 @@ class Grid:
         node = self.mat[row][col]
         self.flip_queue.append(node.flip)
         self.future_update_list = self.future_update_list.union(node.neighbors)
-    
+
     def initialize_grid(self):
-        """initialize grid
-        """
+        """initialize grid"""
         mat = [[Node(row, col) for col in range(self.cols)] for row in range(self.rows)]
         for row in range(self.rows):
             for col in range(self.cols):
-                mat[row][col].neighbors = mat[row][col].neighbors.union(self.get_neighbors(row, col))
+                mat[row][col].neighbors = mat[row][col].neighbors.union(
+                    self.get_neighbors(row, col)
+                )
         return mat
 
     def get_neighbors(self, row: int, col: int) -> set[tuple[int, int]]:
-        """get neighbor coordinates
-        """
+        """get neighbor coordinates"""
         min_row = (row - 1) % self.rows
         max_row = (row + 1) % self.rows
         min_col = (col - 1) % self.cols
@@ -71,9 +70,10 @@ class Grid:
         return neighbors
 
     def execute_flips(self):
+        """execute flips and reset update lists"""
         while self.flip_queue:
             self.flip_queue.pop()()
-        
+
         self.update_list = self.future_update_list
         self.future_update_list = set()
 
@@ -90,7 +90,7 @@ class Grid:
             else:
                 if num_neighbors == 3:
                     self.flip_node(row, col)
-        
+
         # Execute
         self.execute_flips()
 
