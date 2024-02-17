@@ -8,11 +8,17 @@ def main() -> int:
     """Main function."""
 
     grid = Grid(10, 10)
-    grid.mat[1][2].flip()
-    grid.mat[2][3].flip()
-    grid.mat[3][1].flip()
-    grid.mat[3][2].flip()
-    grid.mat[3][3].flip()
+    grid.initialize_nodes(
+        [
+            (1, 2),
+            (2, 3),
+            (3, 1),
+            (3, 2),
+            (3, 3)
+        ]
+    )
+    print(grid)
+    
     return 0
 
 
