@@ -1,17 +1,18 @@
 """Main script to run the game of life.
 """
 
-from game_of_life.nodes import Node
+from game_of_life.grid import Grid
 
 
 def main() -> int:
     """Main function."""
 
-    rows = 10
-    cols = 10
-
-    grid = [[Node() for _ in range(cols)] for _ in range(rows)]
-    print(grid)
+    grid = Grid(10, 10)
+    grid.mat[1][2].flip()
+    grid.mat[2][3].flip()
+    grid.mat[3][1].flip()
+    grid.mat[3][2].flip()
+    grid.mat[3][3].flip()
     return 0
 
 
